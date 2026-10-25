@@ -1,0 +1,2 @@
+Demon_Guard 20 6 1
+Demon_King 50 12 2

@@ -1,0 +1,2 @@
+Dwarf_Shield 30 4 1
+Dwarf_Cannon 15 8 3
