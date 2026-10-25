@@ -7,11 +7,11 @@ class Joc {
 private:
     Armata dwarfs;
     Armata demons;
-    bool incarcaTrupe(Armata& armata, const std::string& caleFisier);
+    static bool incarcaTrupe(Armata& armata, const std::string& caleFisier);
 
 public:
     Joc();
-    void start(); 
+    void start();
 };
 
 #endif

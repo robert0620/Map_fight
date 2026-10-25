@@ -18,9 +18,7 @@ public:
     ~Unitate();
 
     const std::string& getNume() const;
-    int getViata() const;
-    int getAtac() const;
-    int getRaza() const;
+   
 
     void primesteDaune(int damage);
     void ataca(Unitate& inamic) const;

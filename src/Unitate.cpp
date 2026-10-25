@@ -19,9 +19,7 @@ Unitate& Unitate::operator=(const Unitate& other) {
 Unitate::~Unitate() {}
 
 const std::string& Unitate::getNume() const { return nume; }
-int Unitate::getViata() const { return viata; }
-int Unitate::getAtac() const { return atac; }
-int Unitate::getRaza() const { return raza; }
+
 
 void Unitate::primesteDaune(int damage) {
     viata -= damage;
