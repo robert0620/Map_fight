@@ -1,0 +1,6 @@
+{
+  "unitati": [
+    { "nume": "Demon Mic", "viata": 90, "atac": 25, "raza": 1, "cost": 40 },
+    { "nume": "Succubus", "viata": 70, "atac": 35, "raza": 2, "cost": 70 }
+  ]
+}

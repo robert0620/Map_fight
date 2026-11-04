@@ -1,0 +1,6 @@
+{
+  "unitati": [
+    { "nume": "Miner Pitic", "viata": 120, "atac": 20, "raza": 1, "cost": 50 },
+    { "nume": "Tun Pitic", "viata": 80, "atac": 50, "raza": 4, "cost": 100 }
+  ]
+}

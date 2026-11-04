@@ -1,19 +1,46 @@
-#pragma once
-#include <vector>
+#ifndef ARMATA_H
+#define ARMATA_H
+
 #include <string>
-#include <cstddef>
+#include <vector>
+#include <iostream>
 #include "Unitate.h"
+#include "Punct2D.h"
 
 class Armata {
-    std::string numeJucator;
-    std::vector<Unitate> trupe;
+private:
+    std::string numeFactiune;
+    std::string fisierSursa;
+    int aur;
+    int numarOrase;
+    int productieOras;
+    Punct2D<int> baza;
+    std::vector<Unitate> unitati;
+
+    void eliminaUnitatiInvinse();
 
 public:
-    explicit Armata(const std::string& numeJucator_ = "Jucator");
+    Armata(const std::string& nume, const std::string& fisier, int aurInitial, const Punct2D<int>& coordBaza);
+    Armata(const Armata& alta);
+    Armata& operator=(const Armata& alta);
+    ~Armata();
 
-    void recruteaza(const Unitate& trupaNoua);
-    void ordonaAtac(size_t indexTrupa, Unitate& inamic) const;
-    Unitate& getTrupa(size_t index);
+    bool incarcaTrupeInitiale();
+    bool recruteazaUnitate(std::size_t indexSablon);
+    void colecteazaVenit();
+    void cresteProductieMinerit(int bonus);
+    bool cheltuieAur(int suma);
+    void curataArmata();
+
+    const std::string& getNume() const;
+    int getAur() const;
+    int getNumarOrase() const;
+    const Punct2D<int>& getBaza() const;
+    std::vector<Unitate>& getUnitati();
+    const std::vector<Unitate>& getUnitati() const;
+    int calculeazaScorPutere() const;
 
     friend std::ostream& operator<<(std::ostream& os, const Armata& a);
 };
+
+#endif
