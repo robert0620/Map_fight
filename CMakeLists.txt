@@ -23,6 +23,11 @@ include(cmake/RegisterTests.cmake)
 
 include(FetchContent)
 
+if(MSVC AND USE_ASAN)
+    add_compile_options("$<${debug_mode}:/fsanitize=address>")
+    add_link_options("$<${debug_mode}:/fsanitize=address>")
+endif()
+
 set(FETCHCONTENT_QUIET OFF CACHE INTERNAL "Override verbose output" FORCE)
 set(FETCHCONTENT_UPDATES_DISCONNECTED ON CACHE INTERNAL "Override update strategy" FORCE)
 
