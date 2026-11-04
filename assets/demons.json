@@ -1,0 +1,20 @@
+{
+  "unitati": [
+    {
+      "nume": "Demon_Brute",
+      "viata": 25,
+      "atac": 6,
+      "raza": 1,
+      "x": 5,
+      "y": 5
+    },
+    {
+      "nume": "Demon_Imp",
+      "viata": 15,
+      "atac": 9,
+      "raza": 3,
+      "x": 5,
+      "y": 4
+    }
+  ]
+}

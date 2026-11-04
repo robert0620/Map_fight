@@ -1,0 +1,20 @@
+{
+  "unitati": [
+    {
+      "nume": "Dwarf_Shield",
+      "viata": 30,
+      "atac": 4,
+      "raza": 1,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "nume": "Dwarf_Cannon",
+      "viata": 15,
+      "atac": 8,
+      "raza": 3,
+      "x": 0,
+      "y": 1
+    }
+  ]
+}
