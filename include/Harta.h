@@ -23,7 +23,7 @@ public:
     Harta(int latime, int inaltime, TipBiom biomAles = TipBiom::TEMPERAT);
 
     TipTeren getTeren(const Punct2D<int>& p) const;
-    char getSimbolTeren(TipTeren t) const;
+    static char getSimbolTeren(TipTeren t);
     std::string getNumeBiom() const;
     int getBonusAparare(const Punct2D<int>& p) const;
     int getCostMiscare(const Punct2D<int>& p) const;

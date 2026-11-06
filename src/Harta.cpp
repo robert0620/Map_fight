@@ -50,7 +50,7 @@ bool Harta::esteInInterior(const Punct2D<int>& p) const {
     return p.getX() >= 0 && p.getX() < latime && p.getY() >= 0 && p.getY() < inaltime;
 }
 
-char Harta::getSimbolTeren(TipTeren t) const {
+char Harta::getSimbolTeren(TipTeren t) {
     switch (t) {
         case TipTeren::CAMPIE: return '.';
         case TipTeren::PADURE: return 'P';
