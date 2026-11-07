@@ -15,7 +15,6 @@ Jocul se desfasoara in runde, unde doi jucatori se infrunta pe o harta tip grila
 ## Exemplu de Rulare in Terminal
 
 Interfata grafica ruleaza direct in consola (CLI), redand starea vremii, statisticile armatelor si o harta tactica unde caracterele '1' si '2' reprezinta trupele celor doi jucatori.
-
 ```text
 === STARE JOC (Tura 4) ===
 [Vreme: Ploaie (Intensitate 1) | Coef. Atac Distanta: 0.85 | Penalizare Miscare: +1]
@@ -49,3 +48,9 @@ TURA JUCATORULUI 1 - MENIU COMENZI:
 7. Incheie tura
 0. Iesire din joc
 Alege comanda:ows
+```
+
+### Resurse
+- **fmt**: Biblioteca pentru formatarea textului în C++ - https://github.com/fmtlib/fmt
+- **nlohmann/json**: Biblioteca pentru parsarea și gestionarea fișierelor JSON în C++ - https://github.com/nlohmann/json
+
