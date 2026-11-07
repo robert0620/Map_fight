@@ -1,4 +1,3 @@
-#include <cassert>
 #include <iostream>
 #include "Punct2D.h"
 #include "Unitate.h"
@@ -9,27 +8,35 @@
 #include "Vreme.h"
 #include "Joc.h"
 
+#define TEST_ASSERT(expr) \
+    if (!(expr)) { \
+        std::cerr << "Test esuat la linia " << __LINE__ << " -> " << #expr << "\n"; \
+        return 1; \
+    }
+
 int main() {
     Punct2D<int> p1(0, 0);
-    Punct2D<int> p2(0, 1);
 
     Unitate u("Soldat", 100, 20, 1, 50, p1, 1);
     u.primesteDaune(30);
-    assert(u.getViata() == 70);
+    TEST_ASSERT(u.getViata() == 70);
 
     ArboreTehnologic arbore;
     arbore.initializeazaArborePolytopia();
-    assert(arbore.incepeCercetarea("TECH_CATARARE"));
+
+    bool cercetareInceputa = arbore.incepeCercetarea("TECH_CATARARE");
+    TEST_ASSERT(cercetareInceputa);
+
     arbore.proceseazaTura(50);
-    assert(arbore.esteTehnologieDeblocata("TECH_CATARARE"));
+    TEST_ASSERT(arbore.esteTehnologieDeblocata("TECH_CATARARE"));
 
     arbore.echipeazaUnitate(u);
     int razaDupaPrimaEchipare = u.getRaza();
     int viataMaxDupaPrimaEchipare = u.getViataMaxima();
 
     arbore.echipeazaUnitate(u);
-    assert(u.getRaza() == razaDupaPrimaEchipare);
-    assert(u.getViataMaxima() == viataMaxDupaPrimaEchipare);
+    TEST_ASSERT(u.getRaza() == razaDupaPrimaEchipare);
+    TEST_ASSERT(u.getViataMaxima() == viataMaxDupaPrimaEchipare);
 
     Harta harta(8, 8, TipBiom::TEMPERAT);
     Vreme vreme(TipVreme::SENIN, 1);
@@ -43,13 +50,20 @@ int main() {
     joc.adaugaFactiune(a1);
     joc.adaugaFactiune(a2);
 
-    assert(joc.executaAtac(0, 0, 1, 0) == true);
-    assert(joc.executaAtac(0, 0, 1, 0) == false);
+    bool primulAtac = joc.executaAtac(0, 0, 1, 0);
+    TEST_ASSERT(primulAtac == true);
+
+    bool alDoileaAtac = joc.executaAtac(0, 0, 1, 0);
+    TEST_ASSERT(alDoileaAtac == false);
 
     Punct2D<int> pozMunte(3, 4);
     joc.getFactiune(0).adaugaUnitate(std::make_unique<Unitate>("Miner", 100, 10, 1, 30, pozMunte, 1));
-    assert(joc.construiesteMina(0, pozMunte) == true);
-    assert(joc.construiesteMina(0, pozMunte) == false);
+
+    bool primaMina = joc.construiesteMina(0, pozMunte);
+    TEST_ASSERT(primaMina == true);
+
+    bool aDouaMina = joc.construiesteMina(0, pozMunte);
+    TEST_ASSERT(aDouaMina == false);
 
     std::cout << "Toate testele de regresie si reguli de joc au trecut cu succes!\n";
     return 0;

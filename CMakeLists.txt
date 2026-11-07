@@ -30,7 +30,7 @@ FetchContent_Declare(
         fmt
         SYSTEM
         GIT_REPOSITORY https://github.com/fmtlib/fmt.git
-        GIT_TAG        11.0.2
+        GIT_TAG        11.1.2
         GIT_SHALLOW    1
         GIT_PROGRESS   ON
 )

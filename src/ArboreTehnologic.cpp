@@ -12,9 +12,8 @@ bool ArboreTehnologic::incarcaDinFisier(const std::string& caleFisier) {
         return false;
     }
 
-    nlohmann::json date;
-    fisier >> date;
-    if (!date.is_array()) {
+    nlohmann::json date = nlohmann::json::parse(fisier, nullptr, false);
+    if (date.is_discarded() || !date.is_array()) {
         return false;
     }
 
