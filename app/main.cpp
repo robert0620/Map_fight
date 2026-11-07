@@ -3,6 +3,8 @@
 #include "Punct2D.h"
 #include "Vreme.h"
 #include "Unitate.h"
+#include "Mag.h"
+#include "ArboreTehnologic.h"
 #include "Armata.h"
 #include "Harta.h"
 #include "Joc.h"
@@ -78,43 +80,54 @@ int main() {
     Vreme vremeInitiala(TipVreme::SENIN, 1);
 
     Punct2D<int> bazaJ1(0, 0);
-    Punct2D<int> bazaJ2(0, 0);
-    bazaJ2.setX(hartaJoc.getLatime() - 1);
-    bazaJ2.setY(hartaJoc.getInaltime() - 1);
+    Punct2D<int> bazaJ2(hartaJoc.getLatime() - 1, hartaJoc.getInaltime() - 1);
 
-    Armata armata1(nume1, fisier1, 150, bazaJ1);
-    Armata armata2(nume2, fisier2, 150, bazaJ2);
+    Armata armata1(nume1, fisier1, 150, bazaJ1, 1);
+    Armata armata2(nume2, fisier2, 150, bazaJ2, 2);
 
-    armata1.incarcaTrupeInitiale();
-    armata2.incarcaTrupeInitiale();
-
-    Armata copieRezerva(armata1);
-    Armata gardaAuxiliara("Auxiliari", fisier2, 50, bazaJ2);
-    gardaAuxiliara = copieRezerva;
+    if (!armata1.incarcaTrupeInitiale()) {
+        std::cout << "Eroare la incarcarea fisierului " << fisier1 << "\n";
+        return 1;
+    }
+    if (!armata2.incarcaTrupeInitiale()) {
+        std::cout << "Eroare la incarcarea fisierului " << fisier2 << "\n";
+        return 1;
+    }
 
     Joc sesiune(hartaJoc, vremeInitiala);
     sesiune.adaugaFactiune(armata1);
     sesiune.adaugaFactiune(armata2);
 
-    Punct2D<int> offsetInitial(1, 0);
-    Punct2D<int> pozitieTest = bazaJ1 + offsetInitial;
-    if (!(pozitieTest == bazaJ1)) {
-        sesiune.afiseazaHartaTactica();
-    }
+    sesiune.afiseazaHartaTactica();
 
     std::size_t jucatorActiv = 0;
     bool jocActiv = true;
 
     while (jocActiv) {
+        if (sesiune.esteJocTerminat()) {
+            int castigator = sesiune.getCastigator();
+            if (castigator >= 0) {
+                std::cout << "\n=========================================\n";
+                std::cout << "VICTORIE! Jucatorul " << (castigator + 1) << " ("
+                          << sesiune.getFactiune(static_cast<std::size_t>(castigator)).getNume()
+                          << ") a cucerit harta!\n";
+                std::cout << "=========================================\n";
+            }
+            break;
+        }
+
         std::cout << "\n-----------------------------------------\n";
-        std::cout << "TURA JUCATORULUI " << (jucatorActiv + 1) << " - MENIU COMENZI:\n";
+        std::cout << "TURA JUCATORULUI " << (jucatorActiv + 1) << " ("
+                  << sesiune.getFactiune(jucatorActiv).getNume() << ") - MENIU COMENZI:\n";
         std::cout << "1. Afiseaza starea completa si harta tactica\n";
-        std::cout << "2. Plimba / Deplaseaza o unitate\n";
-        std::cout << "3. Ataca o unitate inamica\n";
-        std::cout << "4. Recruteaza o unitate noua in baza\n";
-        std::cout << "5. Construieste o mina pe munte (40 aur)\n";
+        std::cout << "2. Deplaseaza o unitate (1 data / tura)\n";
+        std::cout << "3. Ataca o unitate inamica (1 data / tura)\n";
+        std::cout << "4. Recruteaza o unitate sau un Mag in baza\n";
+        std::cout << "5. Construieste o mina pe munte controlat (40 aur)\n";
         std::cout << "6. Afiseaza clasamentul triburilor\n";
         std::cout << "7. Incheie tura\n";
+        std::cout << "8. Arbore Tehnologic (Cercetare)\n";
+        std::cout << "9. Abilitati Mag din armata (Vindecare / Conversie)\n";
         std::cout << "0. Iesire din joc\n";
         std::cout << "Alege comanda: ";
 
@@ -127,6 +140,7 @@ int main() {
             case 1: {
                 std::cout << sesiune;
                 sesiune.afiseazaHartaTactica();
+                sesiune.getFactiune(jucatorActiv).getArboreTehnologic().afiseazaStatusCercetare();
                 break;
             }
             case 2: {
@@ -138,7 +152,7 @@ int main() {
                 std::cout << "Coordonata destinatie X si Y (ex: 1 2): ";
                 std::cin >> x >> y;
                 if (!sesiune.deplaseazaUnitate(jucatorActiv, idxUnitate, Punct2D<int>(x, y))) {
-                    std::cout << ">> Deplasare invalida (prea departe sau teren inaccesibil)!\n";
+                    std::cout << ">> Deplasare invalida (deja mutata in aceasta tura, traseu blocat de apa sau prea departe)!\n";
                 }
                 sesiune.afiseazaHartaTactica();
                 break;
@@ -152,16 +166,22 @@ int main() {
                 std::cout << "Indexul unitatii inamice tinta: ";
                 std::cin >> idxUnitInamica;
                 if (!sesiune.executaAtac(jucatorActiv, idxUnitProprie, inamic, idxUnitInamica)) {
-                    std::cout << ">> Atacul a esuat (inamicul nu este in raza de actiune)!\n";
+                    std::cout << ">> Atacul a esuat (unitatea a actionat deja in aceasta tura sau tinta nu este in raza)!\n";
                 }
                 break;
             }
             case 4: {
                 std::size_t tipSablon = 0;
-                std::cout << "Alege tipul de unitate din factiune (0, 1 sau 2): ";
+                std::cout << "Alege tipul de unitate (0, 1, 2 pentru sabloane sau 3 pentru Mag - 60 aur, necesita Meditatie/Filozofie): ";
                 std::cin >> tipSablon;
-                if (!sesiune.recruteazaInFactiune(jucatorActiv, tipSablon)) {
-                    std::cout << ">> Recrutare esuata (aur insuficient sau index invalid)!\n";
+                if (tipSablon == 3) {
+                    if (!sesiune.recruteazaMagInFactiune(jucatorActiv)) {
+                        std::cout << ">> Recrutare Mag esuata (cerceteaza TECH_MEDITATIE si asigura-te ca ai 60 aur)!\n";
+                    }
+                } else {
+                    if (!sesiune.recruteazaInFactiune(jucatorActiv, tipSablon)) {
+                        std::cout << ">> Recrutare esuata (aur insuficient sau index invalid)!\n";
+                    }
                 }
                 break;
             }
@@ -173,7 +193,7 @@ int main() {
                 if (sesiune.construiesteMina(jucatorActiv, Punct2D<int>(mx, my))) {
                     std::cout << ">> Mina a fost construita cu succes! Productia de aur a crescut.\n";
                 } else {
-                    std::cout << ">> Construire esuata (celula nu este munte sau nu ai 40 aur)!\n";
+                    std::cout << ">> Construire esuata (nu este munte, are deja mina, nu ai o unitate langa munte sau nu ai 40 aur)!\n";
                 }
                 break;
             }
@@ -185,9 +205,55 @@ int main() {
                 jucatorActiv = (jucatorActiv == 0) ? 1 : 0;
                 if (jucatorActiv == 0) {
                     sesiune.avanseazaTura();
-                    std::cout << ">> O noua runda a inceput! Vremea si veniturile au fost actualizate.\n";
+                    std::cout << ">> O noua runda a inceput! Vremea, cercetarea, actiunile si veniturile au fost actualizate.\n";
                 } else {
                     std::cout << ">> Tura a trecut la Jucatorul 2.\n";
+                }
+                break;
+            }
+            case 8: {
+                ArboreTehnologic& arbore = sesiune.getFactiune(jucatorActiv).getArboreTehnologic();
+                arbore.afiseazaStatusCercetare();
+                arbore.afiseazaTehnologiiDisponibile();
+                std::cout << "Introdu ID-ul tehnologiei de cercetat (ex: TECH_CATARARE sau 0 pentru anulare): ";
+                std::string idTech;
+                std::cin >> idTech;
+                if (idTech != "0") {
+                    if (sesiune.incepeCercetareInFactiune(jucatorActiv, idTech)) {
+                        std::cout << ">> Cercetarea pentru " << idTech << " a inceput si va avansa la fiecare runda!\n";
+                    } else {
+                        std::cout << ">> Nu poti cerceta aceasta tehnologie acum.\n";
+                    }
+                }
+                break;
+            }
+            case 9: {
+                std::size_t inamicIdx = (jucatorActiv == 0) ? 1 : 0;
+                std::size_t idxMag = 0;
+                std::cout << "Indexul Magului din armata ta: ";
+                std::cin >> idxMag;
+                std::cout << "1. Vindeca o unitate aliata ranita\n2. Converteste o unitate inamica adiacenta (necesita TECH_FILOZOFIE)\nOptiune: ";
+                int actiuneMag = 0;
+                std::cin >> actiuneMag;
+
+                if (actiuneMag == 1) {
+                    std::size_t idxAliat = 0;
+                    std::cout << "Indexul unitatii aliate pe care vrei sa o vindeci: ";
+                    std::cin >> idxAliat;
+                    if (sesiune.executaVindecareMag(jucatorActiv, idxMag, idxAliat)) {
+                        std::cout << ">> Unitatea aliata a fost vindecata!\n";
+                    } else {
+                        std::cout << ">> Vindecare esuata (unitatea nu este Mag, a actionat deja, aliatul are HP maxim sau este prea departe)!\n";
+                    }
+                } else if (actiuneMag == 2) {
+                    std::size_t idxInamic = 0;
+                    std::cout << "Indexul unitatii inamice adiacente: ";
+                    std::cin >> idxInamic;
+                    if (sesiune.executaConversieMag(jucatorActiv, idxMag, inamicIdx, idxInamic)) {
+                        std::cout << ">> Unitatea inamica a fost convertita si mutata in armata ta!\n";
+                    } else {
+                        std::cout << ">> Conversie esuata (necesita un Mag activ, TECH_FILOZOFIE si distanta <= 1)!\n";
+                    }
                 }
                 break;
             }

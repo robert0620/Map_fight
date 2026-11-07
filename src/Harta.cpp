@@ -1,7 +1,13 @@
 #include "Harta.h"
+#include <queue>
+#include <cmath>
 
 Harta::Harta(int latime, int inaltime, TipBiom biomAles)
-    : latime(latime), inaltime(inaltime), biom(biomAles), grila(inaltime, std::vector<TipTeren>(latime, TipTeren::CAMPIE)) {
+    : latime(latime),
+      inaltime(inaltime),
+      biom(biomAles),
+      grila(inaltime, std::vector<TipTeren>(latime, TipTeren::CAMPIE)),
+      mineConstruite(inaltime, std::vector<bool>(latime, false)) {
     genereazaTerenDupaBiom();
 }
 
@@ -103,6 +109,62 @@ bool Harta::esteAccesibil(const Punct2D<int>& p) const {
     return esteInInterior(p) && getTeren(p) != TipTeren::APA;
 }
 
+bool Harta::existaTraseuAccesibil(const Punct2D<int>& start, const Punct2D<int>& destinatie, int pasiMaximi) const {
+    if (!esteAccesibil(start) || !esteAccesibil(destinatie) || pasiMaximi <= 0) {
+        return false;
+    }
+    if (start == destinatie) {
+        return true;
+    }
+
+    std::vector<std::vector<int>> dist(inaltime, std::vector<int>(latime, -1));
+    std::queue<Punct2D<int>> coada;
+
+    coada.push(start);
+    dist[start.getY()][start.getX()] = 0;
+
+    const int dx[4] = {1, -1, 0, 0};
+    const int dy[4] = {0, 0, 1, -1};
+
+    while (!coada.empty()) {
+        Punct2D<int> curent = coada.front();
+        coada.pop();
+
+        int dCurent = dist[curent.getY()][curent.getX()];
+        if (curent == destinatie) {
+            return dCurent <= pasiMaximi;
+        }
+        if (dCurent >= pasiMaximi) {
+            continue;
+        }
+
+        for (int dir = 0; dir < 4; ++dir) {
+            Punct2D<int> vecin(curent.getX() + dx[dir], curent.getY() + dy[dir]);
+            if (esteAccesibil(vecin) && dist[vecin.getY()][vecin.getX()] == -1) {
+                dist[vecin.getY()][vecin.getX()] = dCurent + 1;
+                coada.push(vecin);
+            }
+        }
+    }
+
+    return false;
+}
+
+bool Harta::areMina(const Punct2D<int>& p) const {
+    if (!esteInInterior(p)) {
+        return false;
+    }
+    return mineConstruite[p.getY()][p.getX()];
+}
+
+bool Harta::plaseazaMina(const Punct2D<int>& p) {
+    if (!esteInInterior(p) || getTeren(p) != TipTeren::MUNTE || mineConstruite[p.getY()][p.getX()]) {
+        return false;
+    }
+    mineConstruite[p.getY()][p.getX()] = true;
+    return true;
+}
+
 int Harta::getLatime() const {
     return latime;
 }
@@ -115,7 +177,11 @@ std::ostream& operator<<(std::ostream& os, const Harta& h) {
     os << "Harta [" << h.getNumeBiom() << "] (" << h.latime << "x" << h.inaltime << "):\n";
     for (int y = 0; y < h.inaltime; ++y) {
         for (int x = 0; x < h.latime; ++x) {
-            os << h.getSimbolTeren(h.grila[y][x]) << ' ';
+            if (h.mineConstruite[y][x]) {
+                os << "$ ";
+            } else {
+                os << Harta::getSimbolTeren(h.grila[y][x]) << ' ';
+            }
         }
         os << '\n';
     }

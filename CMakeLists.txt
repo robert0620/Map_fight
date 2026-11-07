@@ -64,6 +64,12 @@ add_library(${MAIN_LIBRARY_NAME} STATIC
         src/Armata.cpp
         src/Harta.cpp
         src/Joc.cpp
+        include/Mag.h
+        src/Mag.cpp
+        include/Tehnologie.h
+        include/ArboreTehnologic.h
+        src/ArboreTehnologic.cpp
+        src/Tehnologie.cpp
 )
 
 add_executable(${MAIN_EXECUTABLE_NAME}

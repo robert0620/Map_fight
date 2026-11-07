@@ -15,6 +15,7 @@ private:
     int inaltime;
     TipBiom biom;
     std::vector<std::vector<TipTeren>> grila;
+    std::vector<std::vector<bool>> mineConstruite;
 
     void genereazaTerenDupaBiom();
     bool esteInInterior(const Punct2D<int>& p) const;
@@ -28,6 +29,11 @@ public:
     int getBonusAparare(const Punct2D<int>& p) const;
     int getCostMiscare(const Punct2D<int>& p) const;
     bool esteAccesibil(const Punct2D<int>& p) const;
+    bool existaTraseuAccesibil(const Punct2D<int>& start, const Punct2D<int>& destinatie, int pasiMaximi) const;
+
+    bool areMina(const Punct2D<int>& p) const;
+    bool plaseazaMina(const Punct2D<int>& p);
+
     int getLatime() const;
     int getInaltime() const;
 

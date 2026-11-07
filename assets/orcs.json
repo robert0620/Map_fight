@@ -1,0 +1,7 @@
+{
+  "unitati": [
+    { "nume": "Berserker Orc", "viata": 120, "atac": 25, "raza": 1, "cost": 50 },
+    { "nume": "Aruncator de Topoare", "viata": 90, "atac": 20, "raza": 2, "cost": 45 },
+    { "nume": "Capetenie de Razboi", "viata": 150, "atac": 32, "raza": 1, "cost": 80 }
+  ]
+}

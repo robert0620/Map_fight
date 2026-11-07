@@ -1,0 +1,7 @@
+{
+  "unitati": [
+    { "nume": "Arcas Elfic", "viata": 85, "atac": 24, "raza": 2, "cost": 45 },
+    { "nume": "Gardianul Padurii", "viata": 115, "atac": 18, "raza": 1, "cost": 55 },
+    { "nume": "Vrajitor Silvan", "viata": 75, "atac": 28, "raza": 3, "cost": 70 }
+  ]
+}
