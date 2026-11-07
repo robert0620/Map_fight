@@ -23,10 +23,6 @@ void Mag::sincronizeazaBonusVindecare(int totalBonusVindecare) {
     }
 }
 
-bool Mag::areConversieActiva() const {
-    return conversieActiva;
-}
-
 void Mag::setConversieActiva(bool activa) {
     conversieActiva = activa;
 }

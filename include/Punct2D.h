@@ -15,8 +15,6 @@ public:
 
     T getX() const { return x; }
     T getY() const { return y; }
-    void setX(T xNou) { x = xNou; }
-    void setY(T yNou) { y = yNou; }
 
     T distantaManhattan(const Punct2D<T>& altul) const {
         return std::abs(x - altul.x) + std::abs(y - altul.y);

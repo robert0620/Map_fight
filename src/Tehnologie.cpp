@@ -18,8 +18,6 @@ Tehnologie::Tehnologie(const std::string& id, const std::string& nume, const std
 
 const std::string& Tehnologie::getId() const { return id; }
 const std::string& Tehnologie::getNume() const { return nume; }
-const std::string& Tehnologie::getRamura() const { return ramura; }
-int Tehnologie::getNivel() const { return nivel; }
 int Tehnologie::getCost() const { return costStiinta; }
 int Tehnologie::getProgres() const { return progresCurent; }
 bool Tehnologie::esteDeblocata() const { return deblocata; }

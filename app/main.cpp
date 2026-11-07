@@ -212,7 +212,7 @@ int main() {
                 break;
             }
             case 8: {
-                ArboreTehnologic& arbore = sesiune.getFactiune(jucatorActiv).getArboreTehnologic();
+                const ArboreTehnologic& arbore = sesiune.getFactiune(jucatorActiv).getArboreTehnologic();
                 arbore.afiseazaStatusCercetare();
                 arbore.afiseazaTehnologiiDisponibile();
                 std::cout << "Introdu ID-ul tehnologiei de cercetat (ex: TECH_CATARARE sau 0 pentru anulare): ";

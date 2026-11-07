@@ -22,7 +22,6 @@ public:
     int getPutereVindecare() const;
     void sincronizeazaBonusVindecare(int totalBonusVindecare);
 
-    bool areConversieActiva() const;
     void setConversieActiva(bool activa);
 
     bool vindeca(Unitate& aliat);

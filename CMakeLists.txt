@@ -92,7 +92,7 @@ target_include_directories(${MAIN_LIBRARY_NAME} SYSTEM PRIVATE
         ${EXT_PRIVATE_DIR}
 )
 
-target_link_libraries(${MAIN_LIBRARY_NAME} PUBLIC fmt::fmt nlohmann_json::nlohmann_json)
+target_link_libraries(${MAIN_LIBRARY_NAME} PUBLIC fmt::fmt-header-only nlohmann_json::nlohmann_json)
 target_link_libraries(${MAIN_EXECUTABLE_NAME} PRIVATE ${MAIN_LIBRARY_NAME})
 
 install(TARGETS ${MAIN_EXECUTABLE_NAME} DESTINATION ${DESTINATION_DIR})

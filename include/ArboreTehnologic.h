@@ -7,8 +7,6 @@
 #include "Tehnologie.h"
 #include "Unitate.h"
 
-class Mag;
-
 class ArboreTehnologic {
 private:
     std::map<std::string, Tehnologie> tehnologii;
@@ -28,7 +26,6 @@ public:
     bool incepeCercetarea(const std::string& idTech);
     void proceseazaTura(int puncteStiintaGenerate);
 
-    bool esteUnitateDeblocata(const std::string& tipUnitate) const;
     bool areAbilitateConversie() const;
     int getBonusViataTotal() const;
     int getBonusAtacTotal() const;
@@ -37,7 +34,6 @@ public:
     int getReducereCostTotala() const;
 
     void echipeazaUnitate(Unitate& unitate) const;
-    void echipeazaMag(Mag& mag) const;
 
     void afiseazaTehnologiiDisponibile() const;
     void afiseazaStatusCercetare() const;

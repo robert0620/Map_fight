@@ -28,8 +28,6 @@ public:
 
     const std::string& getId() const;
     const std::string& getNume() const;
-    const std::string& getRamura() const;
-    int getNivel() const;
     int getCost() const;
     int getProgres() const;
     bool esteDeblocata() const;

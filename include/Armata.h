@@ -48,7 +48,6 @@ public:
     const std::string& getNume() const;
     int getAur() const;
     int getNumarOrase() const;
-    int getIdFactiune() const;
     void setIdFactiune(int idNou);
     const Punct2D<int>& getBaza() const;
 

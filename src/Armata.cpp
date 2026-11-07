@@ -225,10 +225,6 @@ int Armata::getNumarOrase() const {
     return numarOrase;
 }
 
-int Armata::getIdFactiune() const {
-    return idFactiune;
-}
-
 void Armata::setIdFactiune(int idNou) {
     idFactiune = idNou;
     for (auto& u : unitati) {

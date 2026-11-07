@@ -170,18 +170,6 @@ void ArboreTehnologic::proceseazaTura(int puncteStiintaGenerate) {
     }
 }
 
-bool ArboreTehnologic::esteUnitateDeblocata(const std::string& tipUnitate) const {
-    if (tipUnitate == "Soldat" || tipUnitate == "Razboinic") {
-        return true;
-    }
-    for (const auto& pereche : tehnologii) {
-        if (pereche.second.esteDeblocata() && pereche.second.getUnitateDeblocata() == tipUnitate) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool ArboreTehnologic::areAbilitateConversie() const {
     for (const auto& pereche : tehnologii) {
         if (pereche.second.esteDeblocata() && pereche.second.permiteConversia()) {
@@ -237,10 +225,6 @@ void ArboreTehnologic::echipeazaUnitate(Unitate& unitate) const {
         magPtr->sincronizeazaBonusVindecare(getBonusVindecareTotal());
         magPtr->setConversieActiva(areAbilitateConversie());
     }
-}
-
-void ArboreTehnologic::echipeazaMag(Mag& mag) const {
-    echipeazaUnitate(mag);
 }
 
 void ArboreTehnologic::afiseazaTehnologiiDisponibile() const {
