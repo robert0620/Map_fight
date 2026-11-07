@@ -1,14 +1,11 @@
 #include "Tehnologie.h"
 
-Tehnologie::Tehnologie(const std::string& id, const std::string& nume, const std::string& ramura, int nivel, int cost)
+Tehnologie::Tehnologie(const std::string& id, const std::string& nume, int cost)
     : id(id),
       nume(nume),
-      ramura(ramura),
-      nivel(nivel),
       costStiinta(cost),
       progresCurent(0),
       deblocata(false),
-      unitateDeblocata(""),
       bonusViata(0),
       bonusAtac(0),
       bonusRaza(0),
@@ -23,17 +20,12 @@ int Tehnologie::getProgres() const { return progresCurent; }
 bool Tehnologie::esteDeblocata() const { return deblocata; }
 const std::vector<std::string>& Tehnologie::getCerinte() const { return cerinte; }
 
-const std::string& Tehnologie::getUnitateDeblocata() const { return unitateDeblocata; }
 int Tehnologie::getBonusViata() const { return bonusViata; }
 int Tehnologie::getBonusAtac() const { return bonusAtac; }
 int Tehnologie::getBonusRaza() const { return bonusRaza; }
 int Tehnologie::getBonusVindecare() const { return bonusVindecare; }
 bool Tehnologie::permiteConversia() const { return deblocheazaConversia; }
 int Tehnologie::getReducereCostProcent() const { return reducereCostProcent; }
-
-void Tehnologie::seteazaUnitateDeblocata(const std::string& unitate) {
-    this->unitateDeblocata = unitate;
-}
 
 void Tehnologie::seteazaBonusuriLupta(int viata, int atac, int raza) {
     this->bonusViata = viata;

@@ -22,11 +22,8 @@ bool ArboreTehnologic::incarcaDinFisier(const std::string& caleFisier) {
         Tehnologie tech(
             item.value("id", ""),
             item.value("nume", ""),
-            item.value("ramura", ""),
-            item.value("nivel", 1),
             item.value("cost", 50)
         );
-        tech.seteazaUnitateDeblocata(item.value("unitate", ""));
         tech.seteazaBonusuriLupta(
             item.value("bonusViata", 0),
             item.value("bonusAtac", 0),
@@ -57,22 +54,20 @@ void ArboreTehnologic::initializeazaArborePolytopia() {
         return;
     }
 
-    Tehnologie catarare("TECH_CATARARE", "Catarare", "Munti si Intelepciune", 1, 50);
+    Tehnologie catarare("TECH_CATARARE", "Catarare", 50);
     catarare.seteazaBonusuriLupta(0, 0, 1);
 
-    Tehnologie meditatie("TECH_MEDITATIE", "Meditatie", "Munti si Intelepciune", 2, 80);
+    Tehnologie meditatie("TECH_MEDITATIE", "Meditatie", 80);
     meditatie.seteazaBonusuriLupta(10, 0, 0);
     meditatie.seteazaEfecteMagice(15, false, 0);
 
-    Tehnologie filozofie("TECH_FILOZOFIE", "Filozofie", "Munti si Intelepciune", 3, 130);
-    filozofie.seteazaUnitateDeblocata("Mag");
+    Tehnologie filozofie("TECH_FILOZOFIE", "Filozofie", 130);
     filozofie.seteazaEfecteMagice(20, true, 20);
 
-    Tehnologie minerit("TECH_MINERIT", "Minerit", "Metalurgie", 2, 80);
+    Tehnologie minerit("TECH_MINERIT", "Minerit", 80);
     minerit.seteazaBonusuriLupta(5, 5, 0);
 
-    Tehnologie fierarie("TECH_FIERARIE", "Fierarie", "Metalurgie", 3, 130);
-    fierarie.seteazaUnitateDeblocata("Spadasin");
+    Tehnologie fierarie("TECH_FIERARIE", "Fierarie", 130);
     fierarie.seteazaBonusuriLupta(15, 12, 0);
 
     adaugaTehnologie(catarare);
